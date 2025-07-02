@@ -1,2 +1,2 @@
-# Milorad-Application-Installer
+# Milorad-Installer-Setup
 A fish script which can quickly install any Milorad application and create functions to start them.

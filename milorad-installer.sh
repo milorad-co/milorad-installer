@@ -6,10 +6,8 @@ cd /bin/milorad
 git clone https://github.com/milorad-co/milorad-installer
 cd milorad-installer
 rm -fv README.md
-mv -fv milorad-installer.sh /bin/milorad/milorad-installer.sh
+chmod u+x milorad.sh
+./milorad.sh
 cd ..
 rm -rfv milorad-installer
-chmod -fv u+x milorad-installer.sh
-mv -fv /bin/milorad/milorad.fish /home/$USER/.config/fish/functions/milorad.fish
-funcsave milorad
-echo -e "\nThe Milorad application installer has been set up. Run the command 'milorad help' for more details."
+echo -e "\nThe Milorad application installer has been set up. Enter the command 'milorad help' for more details."

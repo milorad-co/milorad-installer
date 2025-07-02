@@ -10,4 +10,4 @@ chmod u+x milorad.sh
 ./milorad.sh
 cd ..
 rm -rfv milorad-installer
-echo -e "\nThe Milorad application installer has been set up. Enter the command 'milorad help' for more details."
+echo -e "\nThe Milorad application installer has been set up for $USER. Enter the command 'milorad help' for more details."

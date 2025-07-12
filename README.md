@@ -12,7 +12,8 @@ NOTE: Most Milorad applications are intended to run on Debian Linux, so only Deb
 
     git clone https://github.com/milorad-co/milorad-installer/
     cd milorad-installer/
-    rm README.md
     chmod +x milorad.sh
     ./milorad.sh
+    cd ..
+    rm -r milorad-installer/
 Then you're done.

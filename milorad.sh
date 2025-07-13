@@ -126,14 +126,14 @@ provides commands for installing, removing, and updating all Milorad
 appliations, such as GUMP.
 
 Subcommands
-help - display this help
-install - install an application
-remove - remove an installed application
-update/reinstall - remove an installed application, or this installer
-if no application name is provided, then install the latest version
-of that application/installer
+help               display this help
+install            install an application
+remove             remove an installed application
+update/reinstall   remove an installed application, or this installer
+                   if no application name is provided, then install
+                   the latest version of that application/installer
 Applications
-gump - a useless art program"
+gump               a useless art program"
         end
         if test "$subcmd" != "install" -a "$subcmd" != "update" -a "$subcmd" != "remove" -a "$subcmd" != "help" -a "$subcmd" != "reinstall"
             echo -e "Invalid option: '$subcmd'.\nTry 'milorad help' for more information."

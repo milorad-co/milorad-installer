@@ -8,7 +8,7 @@ For Debian-based Linux Distros (such as Ubuntu, Linux Mint, MX Linux, Kali Linux
 sudo apt install fish
 ```
 2. Install the installer.
-   Paste the following commands into your terminal and press enter:
+   Paste the following command block into your terminal and press enter:
 ```
 git clone https://github.com/milorad-co/milorad-installer/
 cd milorad-installer/

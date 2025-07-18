@@ -19,3 +19,13 @@ rm -r milorad-installer/
 This script requires Bash to be installed, however, Bash is built in to almost all Linux distros, so you usually do not need to worry about that.
 
 This method works for non-Debian based Linux distros (such as Fedora, openSUSE, Gentoo, and Arch), but there will be some glitches with the applications the installer installs.
+## For Windows
+First, [install Git Bash for Windows](https://git-scm.com/downloads/win). Then you can start Git Bash and enter the below code block.
+```
+git clone https://github.com/milorad-co/milorad-installer/
+cd milorad-installer/
+chmod +x milorad.sh
+./milorad-win.sh
+cd ..
+rm -r milorad-installer/
+```

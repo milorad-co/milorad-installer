@@ -31,4 +31,4 @@ rm -r milorad-installer/
 ```
 
 
-Milorad does not and will never make any applications for MacOS.
+Milorad has not and will never make any applications for MacOS.

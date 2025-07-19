@@ -11,8 +11,8 @@ For Debian-based Linux distros (such as Ubuntu, Linux Mint, MX Linux, Kali Linux
 ```
 git clone https://github.com/milorad-co/milorad-installer/
 cd milorad-installer/
-chmod +x milorad.sh
-./milorad.sh
+chmod +x milorad
+./milorad
 cd ..
 rm -r milorad-installer/
 ```
@@ -24,11 +24,10 @@ First, [install Git Bash for Windows](https://git-scm.com/downloads/win). Then y
 ```
 git clone https://github.com/milorad-co/milorad-installer/
 cd milorad-installer/
-chmod +x milorad.sh
-./milorad-win.sh
+chmod +x milorad-win
+./milorad-win
 cd ..
 rm -r milorad-installer/
 ```
-
-
+## For MacOS
 Milorad has not and will never make any applications for MacOS.

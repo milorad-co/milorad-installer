@@ -1,7 +1,7 @@
 # Milorad Application Installer
 A shell script which can quickly install any Milorad application and create functions to start them.
 
-This script uses the `git` command to install applications in the directory /opt/milorad/ (on Linux) or C:\Program Files\milorad\ (on Windows), then creates functions to easily start them from the terminal! The applications it can install are:
+This script uses the `git` command to install applications in the directory /opt/milorad/ (on Linux) or C:/Program Files/Git/opt/milorad/ (on Windows), then creates functions to easily start them from the terminal! The applications it can install are:
 1. GUMP - The GNU Useless Manipulation Program, for Windows, Linux, and development.
 
 Many more apps are currently in development. The full list of them is on the [Milorad Website](https://milorad-co.github.io/).

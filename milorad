@@ -119,8 +119,8 @@ if test "$argv[1]" != ""
             end
         else
             rm -rfv "$(status -f)"
-            git clone https://github.com/milorad-co/mai-config/
-            cd mai-config/ || exit
+            git clone https://github.com/milorad-co/mai-setup/
+            cd mai-setup/ || exit
             chmod a+x milorad-setup.sh
             ./milorad-setup.sh
             cd ..
@@ -153,7 +153,7 @@ if test "$argv[1]" != ""
         end
     end
     if test "$argv[1]" = "help"
-        echo "Milorad Application Installer (M.A.I.) Version 1
+        echo "Milorad Application Installer (M.A.I.) Version 2
 Usage: sudo milorad <install/remove/update> <application>
    or: milorad help
 

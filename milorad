@@ -147,13 +147,13 @@ if test "$argv[1]" != ""
                     echo "GUMP for development was not installed, so not removed."
                 end
             end
-            if test "$argv[2]" != "gump" -o "$argv[2]" != "gump-dev"
+            if test "$argv[2]" != "gump" -a "$argv[2]" != "gump-dev"
                 echo "Invalid option: '$argv[2]'.\nTry 'milorad help' for more information."
             end
         end
     end
     if test "$argv[1]" = "help"
-        echo "Milorad Application Installer (M.A.I.) Version 2
+        echo "Milorad Application Installer (M.A.I.) Version 1.2
 Usage: sudo milorad <install/remove/update> <application>
    or: milorad help
 

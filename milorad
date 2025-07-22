@@ -118,15 +118,26 @@ if test "$argv[1]" != ""
                 echo -e "Invalid option: '$argv[2]'.\nTry 'milorad help' for more information."
             end
         else
-            rm -rfv "$(status -f)"
-            git clone https://github.com/milorad-co/mai-setup/
-            cd mai-setup/ || exit
-            chmod a+x milorad-setup.sh
-            ./milorad-setup.sh
-            cd ..
-            rm -r milorad-installer/
-            /opt/milorad/mai-config/latest-versions.sh
-            echo -e "\nThe Milorad Application Installer has been updated."
+            git clone https://github.com/milorad-co/milorad-installer/
+            cd milorad-installer || exit
+            if test "$(uname)" = "Linux"
+                rm -fv milorad-win
+                chmod a+x milorad
+                mv -fv milorad /usr/local/bin/milorad
+                mkdir -pv /opt/milorad/
+            else
+                if test "$(uname)" = "windows uname"
+                    rm -fv milorad
+                    chmod a+x milorad-win
+                    mv -fv milorad-win /some/directory
+                    mkdir -pv /some/other/directory
+                else
+                    echo "Error: OS type not recognised (the Milorad Application Installer only runs on Linux and Windows)."
+                end
+            end
+            cd .. || exit
+            rm -rfv milorad-installer
+            echo -e "\nThe Milorad Application Installer has been updated. Run the command 'milorad help' for general help."
         end
     end
     if test "$argv[1]" = "remove"
@@ -153,7 +164,7 @@ if test "$argv[1]" != ""
         end
     end
     if test "$argv[1]" = "help"
-        echo "Milorad Application Installer (M.A.I.) Version 1.2
+        echo "Milorad Application Installer (M.A.I.) Version 1.3
 Usage: sudo milorad <install/remove/update> <application>
    or: milorad help
 

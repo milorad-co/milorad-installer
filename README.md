@@ -7,7 +7,7 @@ This script uses the `git` command to install applications in the directory /opt
 Many more apps are currently in development. The full list of them is on the [Milorad Website](https://milorad-co.github.io/).
 # How to install
 ## For Linux
-This script requires Fish and Git to be installed. They can be installed together with `sudo apt install fish git`.
+This script requires Fish and Git to be installed. They can be installed together with `sudo apt install fish git`.<br>
 For Debian-based Linux distros (such as Ubuntu, Linux Mint, MX Linux, Kali Linux, Deepin, Pop!_OS, Zorin OS, antiX, Devuan, KDE Neon, and more), paste the following command block into your terminal and press enter (there is no need to download the milorad.sh file):
 ```
 git clone https://github.com/milorad-co/mai-setup/

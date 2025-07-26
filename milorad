@@ -1,191 +1,201 @@
-#!/bin/fish
-if test $EUID -ne 0 && test "$argv[1]" = "install" -o "$argv[1]" = "remove" -o "$argv[1]" = "update"
-    echo -e "\e[0;31mFatal: milorad cannot run as a standard user.\e[0m\nTry 'sudo milorad $argv[1] $argv[2]'."
+#!/bin/bash
+if ! [[ $(sfc 2>&1 | tr -d '\0') =~ SCANNOW ]]; then
+    if test "$OSTYPE" = "linux-gnu"; then
+        echo -e "\e[0;31mFatal: milorad cannot run as a standard user.\e[0m\nTry 'sudo milorad $1 $2'."
+    else
+        echo -e "\e[0;31mFatal: milorad cannot run as a standard user.\e[0m\nRun Git Bash as administrator, then run 'milorad $1 $2'."
+    fi
     exit
-end
-set currentdir "$(pwd)"
-set ans "n"
-cd /opt/milorad/ || exit
-if test "$argv[1]" != ""
-    if test "$argv[1]" = "install"
-        if test "$argv[2]" != ""
-            if test "$argv[2]" = "gump-dev"
-                if test -e GUMP-Development/
-                    echo -e "GUMP for developers is already installed\nDid you mean 'sudo milorad update $argv[2]'?\nTry 'milorad help' for more information."
-                else
-                    echo "Are you sure that you wish to install GUMP for developers? [Y/n]"
-                    read --prompt-str " > " ans
-                    if test "$ans" = "Y" -o "$ans" = "y"
-                        git clone https://github.com/milorad-co/GNU-Useless-Manipulation-Program
-                        cd GNU-Useless-Manipulation-Program/ || exit
-                        rm -rfv Linux/
-                        rm -rfv Windows/
-                        mv -v Development/ /opt/milorad/GUMP-Development/
-                        cd /opt/milorad/ || exit
-                        rm -rfv GNU-Useless-Manipulation-Program
-                        cd /usr/local/bin/ || exit
-                        touch gump-dev
-                        echo -e "#!/bin/bash\nopen /opt/milorad/GUMP-Development/GUMP.yyp" > gump-dev
-                        chmod -v a+x gump-dev
-                        echo -e "\nThe GNU Useless Manipulation Program for developers has been installed.\nIt can be found in the directory /opt milorad/, but can also be started by entering the command 'gump-dev', asumming that you have GameMaker installed."
-                        set ans "n"
-                    end
-                end
-            end
-            if test "$argv[2]" = "gump"
-                if test -e GUMP/
-                    echo -e "GUMP is already installed\nDid you mean 'sudo milorad update $argv[2]'?\nTry 'milorad help' for more information."
-                else
-                    echo "Are you sure that you wish to install GUMP? [Y/n]"
-                    read --prompt-str " > " ans
-                    if test "$ans" = "Y" -o "$ans" = "y"
-                        git clone https://github.com/milorad-co/GNU-Useless-Manipulation-Program
-                        cd GNU-Useless-Manipulation-Program/ || exit
-                        rm -rfv Windows/
-                        rm -rfv Development/
-                        mv -v Linux/ /opt/milorad/GUMP/
-                        cd /opt/milorad/ || exit
-                        rm -rfv GNU-Useless-Manipulation-Program
-                        cd /opt/milorad/GUMP/ || exit
-                        chmod -v a+x GUMP
-                        cd /usr/local/bin/ || exit
-                        touch gump
-                        echo -e "#!/bin/bash\n/opt/milorad/GUMP/GUMP" > gump
-                        chmod -v a+x gump
-                        echo -e "\nThe GNU Useless Manipulation Program has been installed.\nIt can be found in the directory /opt/milorad/, but can also be started by entering the command 'gump'."
-                        set ans "n"
-                    end
-                end
-            end
-            if test "$argv[2]" != "gump" -a "$argv[2]" != "gump-dev"
-                echo -e "Invalid option: '$argv[2]'.\nTry 'milorad help' for more information."
-            end
+fi
+if test ! "$0" = "/usr/bin/milorad"; then
+    if ! [[ $(sfc 2>&1 | tr -d '\0') =~ SCANNOW ]]; then
+        if test "$OSTYPE" = "linux-gnu"; then
+            echo -e "\e[0;31mFatal: milorad cannot run as a standard user.\e[0m\nTry 'sudo milorad $1 $2'."
         else
-            echo -e "Missing operand.\nTry 'milorad help' for more information"
-        end
-    end
-    if test "$argv[1]" = "update"
-        if test "$argv[2]" != ""
-            if test "$argv[2]" = "gump-dev"
-                if test -e /opt/milorad/GUMP-Development/
-                    rm -rfv /opt/milorad/GUMP-Development/
-                    git clone https://github.com/milorad-co/GNU-Useless-Manipulation-Program
-                    cd GNU-Useless-Manipulation-Program || exit
-                    rm -rfv Linux/
-                    rm -rfv Windows/
-                    mv -v Development/ /opt/milorad/GUMP-Development/
-                    cd /opt/milorad/ || exit
-                    rm -rfv GNU-Useless-Manipulation-Program
-                    cd /usr/local/bin/ || exit
-                    touch gump-dev
-                    echo -e "#!/bin/bash\nopen /opt/milorad/GUMP-Development/GUMP.yyp" > gump-dev
-                    chmod -v a+x gump-dev
-                    echo -e "\nThe GNU Useless Manipulation Program for developers has been updated."
+            echo -e "\e[0;31mFatal: milorad cannot run as a standard user.\e[0m\nRun Git Bash as administrator, then run 'milorad $1 $2'."
+        fi
+        exit
+    fi
+fi
+currentdir="$(pwd)"
+if test "$OSTYPE" = "linux-gnu"; then
+    dir=/opt/milorad/
+    rmdir=Windows/
+    keepdir=Linux/
+else
+    dir=/c/Program\ Files/milorad/
+    rmdir=Linux/
+    keepdir=Windows/
+fi
+if test -e "$dir"; then
+        ans="n"
+        cd "$dir"/ || exit
+        if test "$1" != ""; then
+            if test "$1" = "install"; then
+                if test "$2" != ""; then
+                    if test "$2" = "gump-dev"; then
+                        if test -e GUMP-Development/; then
+                            echo -e "GUMP for developers is already installed.\nTry 'milorad help' for more information."
+                        else
+                            echo "Are you sure that you wish to install GUMP for developers? [Y/n]"
+                            read -rp " > " ans
+                            if test "$ans" = "Y" -o "$ans" = "y"; then
+                                git clone https://github.com/milorad-co/GNU-Useless-Manipulation-Program
+                                cd GNU-Useless-Manipulation-Program/ || exit
+                                rm -rfv Linux/
+                                rm -rfv Windows/
+                                mv -v Development/ "$dir"/GUMP-Development/
+                                cd "$dir"/ || exit
+                                rm -rfv GNU-Useless-Manipulation-Program
+                                cd /usr/bin/ || exit
+                                touch gump-dev
+                                echo -e "#!/bin/bash\nopen '$dir'/GUMP-Development/GUMP.yyp" > gump-dev
+                                chmod -v a+x gump-dev
+                                echo -e "\nThe GNU Useless Manipulation Program for developers has been installed.\nIt can be found in the directory /opt milorad/, but can also be started by entering the command 'gump-dev', asumming that you have GameMaker installed."
+                                ans="n"
+                            fi
+                        fi
+                    fi
+                    if test "$2" = "gump"; then
+                        if test -e GUMP/; then
+                            echo -e "GUMP is already installed\nTry 'milorad help' for more information."
+                        else
+                            echo "Are you sure that you wish to install GUMP? [Y/n]"
+                            read -rp " > " ans
+                            if test "$ans" = "Y" -o "$ans" = "y"; then
+                                git clone https://github.com/milorad-co/GNU-Useless-Manipulation-Program
+                                cd GNU-Useless-Manipulation-Program/ || exit
+                                rm -rfv $rmdir
+                                rm -rfv Development/
+                                mv -v $keepdir "$dir"/GUMP/
+                                cd "$dir"/ || exit
+                                rm -rfv GNU-Useless-Manipulation-Program
+                                cd "$dir"/GUMP/ || exit
+                                chmod -v a+x GUMP
+                                cd /usr/bin/ || exit
+                                touch gump
+                                echo -e "#!/bin/bash\n'$dir'/GUMP/GUMP" > gump
+                                chmod -v a+x gump
+                                echo -e "\nThe GNU Useless Manipulation Program has been installed.\nIt can be found in the directory $dir/, but can also be started by entering the command 'gump'."
+                                ans="n"
+                            fi
+                        fi
+                    fi
+                    if test "$2" != "gump" -a "$2" != "gump-dev"; then
+                        echo -e "Invalid option: '$2'.\nTry 'milorad help' for more information."
+                    fi
                 else
-                    echo -e "GUMP for developers is not installed\nDo you want to install it? [Y/n]"
-                    read --prompt-str " > " ans
-                    if test "$ans" = "Y" -o "$ans" = "y"
-                        sudo milorad install gump-dev
-                    end
-                end
-            end
-            if test "$argv[2]" = "gump"
-                if test -e /opt/milorad/GUMP/
-                    rm -rfv /opt/milorad/GUMP/
-                    git clone https://github.com/milorad-co/GNU-Useless-Manipulation-Program
-                    cd GNU-Useless-Manipulation-Program || exit
-                    rm -rfv Windows/
-                    rm -rfv Development/
-                    mv -v Linux/ /opt/milorad/GUMP/
-                    cd /opt/milorad/ || exit
-                    rm -rfv GNU-Useless-Manipulation-Program
-                    cd /opt/milorad/GUMP/ || exit
-                    chmod -v a+x GUMP
-                    cd /usr/local/bin/ || exit
-                    touch gump
-                    echo -e "#!/bin/bash\n/opt/milorad/GUMP-Windows/GUMP.exe" > gump-win
-                    chmod -v a+x gump
-                    echo -e "\nThe GNU Useless Manipulation Program has been updated."
+                    echo -e "Missing operand.\nTry 'milorad help' for more information"
+                fi
+            fi
+            if test "$1" = "update"; then
+                if test "$2" != ""; then
+                    if test "$2" = "gump-dev"; then
+                        if test -e "$dir"/GUMP-Development/; then
+                            rm -rfv "$dir"/GUMP-Development/
+                            git clone https://github.com/milorad-co/GNU-Useless-Manipulation-Program
+                            cd GNU-Useless-Manipulation-Program || exit
+                            rm -rfv Linux/
+                            rm -rfv Windows/
+                            mv -v Development/ "$dir"/GUMP-Development/
+                            cd "$dir"/ || exit
+                            rm -rfv GNU-Useless-Manipulation-Program
+                            cd /usr/bin/ || exit
+                            touch gump-dev
+                            echo -e "#!/bin/bash\nopen '$dir'/GUMP-Development/GUMP.yyp" > gump-dev
+                            chmod -v a+x gump-dev
+                            echo -e "\nThe GNU Useless Manipulation Program for developers has been updated."
+                        else
+                            echo "GUMP for developers is not installed, so not updated. Try 'milorad help' for more information."
+                        fi
+                    fi
+                    if test "$2" = "gump"; then
+                        if test -e "$dir"/GUMP/; then
+                            rm -rfv "$dir"/GUMP/
+                            git clone https://github.com/milorad-co/GNU-Useless-Manipulation-Program
+                            cd GNU-Useless-Manipulation-Program || exit
+                            rm -rfv $rmdir
+                            rm -rfv Development/
+                            mv -v $keepdir "$dir"/GUMP/
+                            cd "$dir"/ || exit
+                            rm -rfv GNU-Useless-Manipulation-Program
+                            cd "$dir"/GUMP/ || exit
+                            chmod -v a+x GUMP
+                            cd /usr/bin/ || exit
+                            touch gump
+                            echo -e "#!/bin/bash\n'$dir'/GUMP/GUMP.exe" > gump
+                            chmod -v a+x gump
+                            echo -e "\nThe GNU Useless Manipulation Program has been updated."
+                        else
+                            echo -e "GUMP is not installed, so not updated. Try 'milorad help' for more information."
+                        fi
+                    fi
+                    if test "$2" != "gump" -a "$2" != "gump-dev"; then
+                        echo -e "Invalid option: '$2'.\nTry 'milorad help' for more information."
+                    fi
                 else
-                    echo -e "GUMP is not installed\nDo you want to install it? [Y/n]"
-                    read --prompt-str " > " ans
-                    if test "$ans" = "Y" -o "$ans" = "y"
-                        sudo milorad install gump
-                    end
-                end
-            end
-            if test "$argv[2]" != "gump" -a $argv[2] != "gump-dev"
-                echo -e "Invalid option: '$argv[2]'.\nTry 'milorad help' for more information."
-            end
-        else
-            git clone https://github.com/milorad-co/milorad-installer/
-            cd milorad-installer || exit
-            if test "$(uname)" = "Linux"
-                rm -fv milorad-win
-                chmod a+x milorad
-                mv -fv milorad /usr/local/bin/milorad
-                mkdir -pv /opt/milorad/
-            else
-                if test "$(uname)" = "windows uname"
-                    rm -fv milorad
-                    chmod a+x milorad-win
-                    mv -fv milorad-win /some/directory
-                    mkdir -pv /some/other/directory
+    		    chmod a+x "$0"
+    		    mv -fv "$0" /usr/bin/milorad
+    		    mkdir -pv "$dir"
+    		    rm -rfv "$(dirname "$0")"
+    		    echo "The Milorad Application Installer has been setup! Run the command 'milorad help' for more information."
+                fi
+            fi
+            if test "$1" = "remove"; then
+                if test "$2" != ""; then
+                    if test "$2" = "gump"; then
+                        if test -e "$dir"/GUMP/; then
+                            rm -rfv "$dir"/GUMP/
+                            echo -e "\nGUMP has been removed."
+                        else
+                            echo "GUMP was not installed, so not removed."
+                        fi
+                    fi
+                    if test "$2" = "gump-dev"; then
+                        if test -e "$dir"/GUMP-Development/; then
+                            rm -rfv "$dir"/GUMP-Development/
+                            echo -e "\nGUMP for development has been removed."
+                        else
+                            echo "GUMP for development was not installed, so not removed."
+                        fi
+                    fi
+                    if test "$2" != "gump" -a "$2" != "gump-dev"; then
+                        echo -e "Invalid option: '$2'.\nTry 'milorad help' for more information."
+                    fi
+                fi
+            fi
+            if test "$1" = "help"; then
+                echo "Milorad Application Installer (M.A.I.) Version 4"
+                if test "$OSTYPE" = "linux-gnu"; then
+                    echo -e "Usage: sudo milorad <install/remove/update> <application>\n   or: milorad help\n"
                 else
-                    echo "Error: OS type not recognised (the Milorad Application Installer only runs on Linux and Windows)."
-                end
-            end
-            cd .. || exit
-            rm -rfv milorad-installer
-            echo -e "\nThe Milorad Application Installer has been updated. Run the command 'milorad help' for general help."
-        end
-    end
-    if test "$argv[1]" = "remove"
-        if test "$argv[2]" != ""
-            if test "$argv[2]" = "gump"
-                if test -e /opt/milorad/GUMP/
-                    rm -rfv /opt/milorad/GUMP/
-                    echo -e "\nGUMP has been removed."
-                else
-                    echo "GUMP was not installed, so not removed."
-                end
-            end
-            if test "$argv[2]" = "gump-dev"
-                if test -e /opt/milorad/GUMP-Development/
-                    rm -rfv /opt/milorad/GUMP-Development/
-                    echo -e "\nGUMP for development has been removed."
-                else
-                    echo "GUMP for development was not installed, so not removed."
-                end
-            end
-            if test "$argv[2]" != "gump" -a "$argv[2]" != "gump-dev"
-                echo "Invalid option: '$argv[2]'.\nTry 'milorad help' for more information."
-            end
-        end
-    end
-    if test "$argv[1]" = "help"
-        echo "Milorad Application Installer (M.A.I.) Version 1.3
-Usage: sudo milorad <install/remove/update> <application>
-   or: milorad help
-
-Milorad Application Installer (M.A.I.) is a commandline Milorad application manager and
+                    echo -e "Usage: milorad <subcommand> <application>\n"
+                fi
+                echo "Milorad Application Installer (M.A.I.) is a commandline Milorad application manager and
 provides commands for installing, removing, and updating all Milorad appliations, such
 as GUMP.
-
+        
 Subcommands
 help               display this help
 install            install an application
 remove             remove an installed application
 update             replace an installed application (or this installer if no application
-                   name is provided) with the latest version
+                       name is provided) with the latest version
 Applications
 gump               a useless art program
-gump-dev           the developer prerelease of gump, for use with gamemaker"
-    end
-    if test "$argv[1]" != "install" -a "$argv[1]" != "update" -a "$argv[1]" != "remove" -a "$argv[1]" != "help"
-        echo -e "Invalid option: '$argv[1]'.\nTry 'milorad help' for more information."
-    end
+gump-dev           the developer pre-release of gump, for use with gamemaker"
+            fi
+            if test "$1" != "install" -a "$1" != "update" -a "$1" != "remove" -a "$1" != "help"; then
+                echo -e "Invalid option: '$1'.\nTry 'milorad help' for more information."
+            fi
+        else
+            echo -e "Missing operand.\nTry 'milorad help' for more information."
+        fi
 else
-    echo -e "Missing operand.\nTry 'milorad help' for more information."
-end
+    chmod a+x "$0"
+    mv -fv "$0" /usr/bin/milorad
+    mkdir -pv "$dir"
+    rm -rfv "$(dirname "$0")"
+    echo "The Milorad Application Installer has been setup! Run the command 'milorad help' for more information."
+fi
 cd "$currentdir" || exit

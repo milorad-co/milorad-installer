@@ -1,29 +1,21 @@
 #!/bin/bash
-if ! [[ $(sfc 2>&1 | tr -d '\0') =~ SCANNOW ]]; then
-    if test "$OSTYPE" = "linux-gnu"; then
-        echo -e "\e[0;31mFatal: milorad cannot run as a standard user.\e[0m\nTry 'sudo milorad $1 $2'."
-    else
-        echo -e "\e[0;31mFatal: milorad cannot run as a standard user.\e[0m\nRun Git Bash as administrator, then run 'milorad $1 $2'."
-    fi
+if test "$OSTYPE" = "linux-gnu" -a $EUID -ne 0 && test "$1" = "install" -o "$1" = "update" -o "$1" = "remove"; then
+    echo -e "\e[0;31mFatal: milorad cannot run as a standard user.\e[0m\nTry 'sudo milorad $1 $2'."
     exit
 fi
-if test ! "$0" = "/usr/bin/milorad"; then
-    if ! [[ $(sfc 2>&1 | tr -d '\0') =~ SCANNOW ]]; then
-        if test "$OSTYPE" = "linux-gnu"; then
-            echo -e "\e[0;31mFatal: milorad cannot run as a standard user.\e[0m\nTry 'sudo milorad $1 $2'."
-        else
-            echo -e "\e[0;31mFatal: milorad cannot run as a standard user.\e[0m\nRun Git Bash as administrator, then run 'milorad $1 $2'."
-        fi
+if test "$OSTYPE" != "linux-gnu"; then
+    if ! test $(sfc 2>&1 | tr -d '\0') =~ SCANNOW; then
+        echo -e "\e[0;31mFatal: milorad cannot run as a standard user.\e[0m\nRun Git Bash as administrator, then run 'milorad $1 $2'."
         exit
     fi
 fi
 currentdir="$(pwd)"
 if test "$OSTYPE" = "linux-gnu"; then
-    dir=/opt/milorad/
+    dir=/opt/milorad
     rmdir=Windows/
     keepdir=Linux/
 else
-    dir=/c/Program\ Files/milorad/
+    dir=/c/Program\ Files/miloradw
     rmdir=Linux/
     keepdir=Windows/
 fi
@@ -51,7 +43,7 @@ if test -e "$dir"; then
                                 touch gump-dev
                                 echo -e "#!/bin/bash\nopen '$dir'/GUMP-Development/GUMP.yyp" > gump-dev
                                 chmod -v a+x gump-dev
-                                echo -e "\nThe GNU Useless Manipulation Program for developers has been installed.\nIt can be found in the directory /opt milorad/, but can also be started by entering the command 'gump-dev', asumming that you have GameMaker installed."
+                                echo -e "\nThe GNU Useless Manipulation Program for developers has been installed.\nIt can be found in the directory $dir/, but can also be started by entering the command 'gump-dev', asumming that you have GameMaker installed."
                                 ans="n"
                             fi
                         fi
@@ -174,13 +166,13 @@ if test -e "$dir"; then
                 echo "Milorad Application Installer (M.A.I.) is a commandline Milorad application manager and
 provides commands for installing, removing, and updating all Milorad appliations, such
 as GUMP.
-        
+
 Subcommands
 help               display this help
 install            install an application
-remove             remove an installed application
+remove             remove an installemmd application
 update             replace an installed application (or this installer if no application
-                       name is provided) with the latest version
+                   name is provided) with the latest version
 Applications
 gump               a useless art program
 gump-dev           the developer pre-release of gump, for use with gamemaker"
@@ -191,11 +183,11 @@ gump-dev           the developer pre-release of gump, for use with gamemaker"
         else
             echo -e "Missing operand.\nTry 'milorad help' for more information."
         fi
+        cd "$currentdir" || exit
 else
     chmod a+x "$0"
     mv -fv "$0" /usr/bin/milorad
     mkdir -pv "$dir"
-    rm -rfv "$(dirname "$0")"
-    echo "The Milorad Application Installer has been setup! Run the command 'milorad help' for more information."
+    rm -rfv "$(realpath $(dirname "$0"))"
+    echo "\nThe Milorad Application Installer has been setup! Run the command 'milorad help' for more information."
 fi
-cd "$currentdir" || exit

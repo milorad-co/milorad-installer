@@ -11,7 +11,7 @@ rm -rfv milorad-installer
 ```
 ## For Windows
 First, you must install [Git Bash for Windows](https://git-scm.com/downloads/win).<br>
-Then, open Git Bash *as administrator*. Then run the following commands:
+Then, open Git Bash **as administrator**. Then run the following commands:
 ```
 git clone https://github.com/milorad-co/milorad-installer/
 cd milorad-installer

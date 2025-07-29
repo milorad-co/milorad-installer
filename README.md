@@ -22,3 +22,12 @@ rm -rfv milorad-installer
 ```
 ## For MacOS
 Milorad has not (and probably will never) make any applications for MacOS.
+# Known Issues
+1. When attempting to update the installer, a fatal error can occur causing /usr/bin (a directory vital to the functioning of Git Bash and Linux systems) to be deleted.
+2. Under certain circumstances the `Missing operand` error can appear when all required opperands have been specified.
+# Patches
+Version 4 - Made windows fully compatible, but created a catastrophic issue that causes /usr/bin to be deleted.
+Version 3 - Reverted back to Bash for the final time.
+Version 2 - Converted installer once again to Fish due to the false belief that Fish could run on Windows. Also fixed some minor issues.
+Version 1 - Converted installer to Bash for Windows compatibility.
+Version 0 - Created the original installer, written in Fish.

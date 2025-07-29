@@ -1,5 +1,5 @@
 # Milorad Application Installer
-The Milorad Application Installer can install, remove and update all Milorad applications, such as GUMP. It works by using the `git` command to clone the applications off of Github, then moving them to the directory `/opt/milorad/` in Linux, and `C:\Program Files\` in Windows (which is known to Git Bash as `/c/'Program Files'/`).
+The Milorad Application Installer can install, remove and update all Milorad applications, such as GUMP. It works by using the `git` command to clone the applications off of Github, then moving them to the directory /opt/milorad/ in Linux, and C:\Program Files\ in Windows (which is known to Git Bash as `/c/'Program Files'/`).
 # How to Install
 ## For Linux
 For Debian-based Linux distros (such as Ubuntu, Linux Mint, MX Linux, Kali Linux, Pop!_OS, elementary OS, Zorin OS, Deepin, antiX, and KDE Neon), you can simply paste the following command block into your terminal:

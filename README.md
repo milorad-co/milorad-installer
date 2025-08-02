@@ -1,4 +1,4 @@
-***This application is depricated and is no longer being updated, and may have numerous issues.***
+***This application is depricated and is no longer being updated, and may have numerous issues.***<br>
 This application is depricated as there are much simpler ways to download files. If you want to download Milorad applications, download them from [our software page](https://milorad-co.github.io/software.htm)
 # Milorad Application Installer
 The Milorad Application Installer can install, remove and update all Milorad applications, such as GUMP. It works by using the `git` command to clone the applications off of Github, then moving them to the directory /opt/milorad/ in Linux, and C:\Program Files\ in Windows (which is known to Git Bash as `/c/'Program Files'/`).
